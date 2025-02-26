@@ -31,7 +31,27 @@ const doctorHomeDisplay=async( req, res) =>{
     }
 }
 
+
+
+const doctorLogin = async(req,res)=>{
+   const { email, password } = req.body;
+   try {
+    const doctor = await DoctorModel.findOne({email:email});
+    if(!doctor){
+        res.status(400).send({msg:"Invalid Email"})
+    }
+    if(doctor.password != password){
+        res.status(400).send({msg:"Invalid Password"})
+    }
+    res.status(200).send(doctor)
+   } catch (error) {
+    console.log(error)
+   }
+}
+
+
 module.exports ={
     doctorRegistration,
-    doctorHomeDisplay
+    doctorHomeDisplay,
+    doctorLogin
 }
